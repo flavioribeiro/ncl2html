@@ -1,45 +1,49 @@
 #!/usr/bin/env python
 
-import sys
+import sys, re
 from bs4 import BeautifulSoup
 from os.path import dirname, abspath, join
-import re
 
 EXTENSIONS = {
         "audio" : ("wav", "mp3", "mp2", "mpeg", "mpg", "mp4", "mpg4"),
-        "image" : ("bmp", "gif", "jpg", "png", "mng", "jpeg"),
+        "img" : ("bmp", "gif", "jpg", "png", "mng", "jpeg"),
         "video" : ("mpg", "mpeg"),
         "text" : ("html", "htm")
 }
 
-def parse(ncl_file):
+def convert(ncl_file):
     ncl_code = open(ncl_file).read()
     soup = BeautifulSoup(ncl_code)
-
-    ncl_to_html(soup)
-    translate_medias(soup)
+    apply_filters(soup, ncl_to_html, context_to_div, translate_medias)
 
     return soup.prettify()
+
+def apply_filters(soup, *filters):
+    [f(soup) for f in filters]
 
 def ncl_to_html(soup):
     ncl = soup.find('ncl')
     ncl.name = 'html'
-    return ncl
+
+def context_to_div(soup):
+    contexts = soup.find_all("context")
+    for c in contexts:
+        c.name = "div"
 
 def translate_medias(soup):
     for media in soup.find_all('media'):
-        if   match(media, "video"): media.name = "video"
-        elif match(media, "image"): media.name = "image"
-        elif match(media, "audio"): media.name = "audio"
-        elif match(media, "text"): media.name = "html"
-
+        for tag in EXTENSIONS.keys():
+            if match(media, tag): media.name = tag
 
 def match(m, media_type):
     return re.match(media_type + '(.*)', m.get('type', '')) or  \
            re.match('(.*)('+'|'.join(EXTENSIONS[media_type]) + ")", m['src'])
 
-if __name__ == '__main__' and len(sys.argv) >= 2:
+if __name__ == '__main__' and len(sys.argv) == 2:
     ncl_file = join(dirname(abspath(__file__)), sys.argv[1])
-    print parse(ncl_file)
+    print convert(ncl_file)
+else:
+    print "ncl2html - Convert your NCL documents to HTML"
+    print "usage: ./ncl2html document.ncl"
 
 
