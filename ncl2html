@@ -7,8 +7,9 @@ import re
 
 EXTENSIONS = {
         "audio" : ("wav", "mp3", "mp2", "mpeg", "mpg", "mp4", "mpg4"),
-        "image" : ("bpm", "gif", "jpg", "png"),
-        "video" :  ("mpg", "mpeg")
+        "image" : ("bmp", "gif", "jpg", "png", "mng", "jpeg"),
+        "video" : ("mpg", "mpeg"),
+        "text" : ("html", "htm")
 }
 
 def parse(ncl_file):
