@@ -76,6 +76,6 @@ NCL2HTML.prototype = {
 }
 
 function is_image(media_tag) {
-  return true;
+  return media_tag.match("(.*).(bmp|gif|jpg|png|mng|jpeg|)");
 }
 
