@@ -89,3 +89,8 @@ function log(lvl, text) {
   console = document.getElementById("console");
   console.innerHTML += "<b>" + lvl + "</b> " + text + "<br>";
 }
+
+function run_ncl(ncl_url) {
+  runner = new NCL2HTML();
+  runner.load(ncl_url);
+}

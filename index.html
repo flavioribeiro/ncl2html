@@ -1,13 +1,18 @@
 <html>
   <head>
     <script src="ncl2html.js"></script>
-    <script>
-      runner = new NCL2HTML();
-      runner.load("http://flavioribeiro.com/video.ncl");
-    </script>
   </head>
   <body>
+
+    <form>
+      NCL application URL:
+      <input type="text" name="url" size="100" value="http://flavioribeiro.com/video.ncl">
+      </input>
+      <input type="Button" value="Run!" onClick="run_ncl(this.form.url.value)">
+    </form>
+
     <iframe id="ncl2html" width="800px" height="450px"></iframe>
+
     <div id="console"></div>
   </body>
 </html>
