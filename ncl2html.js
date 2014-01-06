@@ -37,7 +37,7 @@ NCL2HTML.prototype = {
         result += self.createMediaTag(current_element);
       }
       else {
-        console.log("WARNING, tag wasn't converted: " + current_element.tagName);
+        log("WARN", "Tag wasn't converted: " + current_element.tagName);
       }
     }
 
@@ -79,3 +79,8 @@ function is_image(media_tag) {
   return media_tag.match("(.*).(bmp|gif|jpg|png|mng|jpeg|)");
 }
 
+
+function log(lvl, text) {
+  console = document.getElementById("console");
+  console.innerHTML += "<b>" + lvl + "</b> " + text + "<br>";
+}
