@@ -57,6 +57,8 @@ NCL2HTML.prototype = {
     media_src = media_tag.getAttribute("src");
     if (is_image(media_src)) {
       tag = "<img ";
+    } else if (is_video(media_src)) {
+      tag = "<video controls ";
     }
 
     for (var i=0; i < media_tag.attributes.length; i++) {
@@ -76,9 +78,12 @@ NCL2HTML.prototype = {
 }
 
 function is_image(media_tag) {
-  return media_tag.match("(.*).(bmp|gif|jpg|png|mng|jpeg|)");
+  return media_tag.match("(.*).(bmp|gif|jpg|png|mng|jpeg)");
 }
 
+function is_video(media_tag) {
+  return media_tag.match("(.*).(avi|mov|mp4|ogv)");
+}
 
 function log(lvl, text) {
   console = document.getElementById("console");
